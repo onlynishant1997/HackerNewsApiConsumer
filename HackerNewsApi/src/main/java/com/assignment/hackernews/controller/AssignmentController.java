@@ -22,16 +22,16 @@ import com.assignment.hackernews.service.AssignmentService;
 public class AssignmentController {
 
 	@Autowired
-	private AssignmentService storiesService;
+	private AssignmentService assignmentService;
 
 	/**
 	 * Gets the top ten stories.
 	 *
 	 * @return the top ten stories
 	 */
-	@GetMapping("/top-stories")
+	@GetMapping(path = "/top-stories", produces = "application/json")
 	public ResponseEntity<List<Story>> getTopTenStories() {
-		return ResponseEntity.ok(storiesService.getStoryOfLastTenMinutes());
+		return ResponseEntity.ok(assignmentService.getStoryOfLastTenMinutes());
 	}
 
 	/**
@@ -40,9 +40,9 @@ public class AssignmentController {
 	 * @param storyId the story id
 	 * @return the comments on story
 	 */
-	@GetMapping("/comments/{storyId}")
+	@GetMapping(path = "/comments/{storyId}", produces = "application/json")
 	public ResponseEntity<List<CommentResponse>> getCommentsOnStory(@PathVariable String storyId) {
-		return ResponseEntity.of(storiesService.extractCommentsFromStory(storyId));
+		return ResponseEntity.of(assignmentService.extractCommentsFromStory(storyId));
 	}
 
 	/**
@@ -50,9 +50,9 @@ public class AssignmentController {
 	 *
 	 * @return the response entity
 	 */
-	@GetMapping("/past-stories")
+	@GetMapping(path = "/past-stories", produces = "application/json")
 	public ResponseEntity<List<Story>> pastTopStoriesThatWereServerdPreviously() {
-		List<Story> pastStories = storiesService.getPastTopStoriesThatWereServerdPreviously();
+		List<Story> pastStories = assignmentService.getPastTopStoriesThatWereServerdPreviously();
 		if (pastStories == null || pastStories.size() == 0) {
 			return new ResponseEntity<List<Story>>(HttpStatus.NO_CONTENT);
 		}
